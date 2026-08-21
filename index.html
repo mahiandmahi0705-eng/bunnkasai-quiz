@@ -306,13 +306,13 @@
  celebrate();
  message.textContent = "🎉 正解！";
  message.style.color = "green";
- setTimeout(() => {
-   document.getElementById("complete").style.display = "block";
-   document.getElementById("complete").scrollIntoView({
-     behavior: "smooth"
-   });
- }, 3000);
-}
+setTimeout(() => {
+ document.getElementById("complete").style.display = "block";
+ document.getElementById("complete").scrollIntoView({
+   behavior: "smooth"
+ });
+ document.getElementById("question3").style.display = "block";
+}, 3000);
      else {
        message.textContent =
          "もう一度考えてみよう！";
@@ -345,10 +345,6 @@
 ];
 
 confetti.style.background =
-
-  colors[Math.floor(Math.random() * colors.length)];
-confetti.style.background =
-
   colors[Math.floor(Math.random() * colors.length)];
    confetti.style.left =
      Math.random() * 100 + "vw";
