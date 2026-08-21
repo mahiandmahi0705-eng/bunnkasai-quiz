@@ -223,15 +223,10 @@
 </div>
 <script>
    // スタートボタン
-   function startQuiz(){
-       confetti.remove();
-   }, 2500);
- }
+   function startQuiz() {
+ document.getElementById("start").style.display = "none";
+ document.getElementById("quiz").style.display = "block";
 }
-   {
-     document.getElementById("start").style.display = "none";
-     document.getElementById("quiz").style.display = "block";
-   }
    // （1）の答え
    function checkAnswer1() {
      const answer =
