@@ -296,31 +296,29 @@
        "block";
    }
    // （2）の答え
-   function checkAnswer2() {
-     const answer =
-       Number(document.getElementById("answer2").value);
-     const message =
-       document.getElementById("message2");
-     if (answer === 12) {
- celebrate();
- message.textContent = "🎉 正解！";
- message.style.color = "green";
-setTimeout(() => {
- document.getElementById("complete").style.display = "block";
- document.getElementById("complete").scrollIntoView({
-   behavior: "smooth"
- });
- document.getElementById("question3").style.display = "block";
-}, 3000);
-     }
-      else {
-       message.textContent =
-         "もう一度考えてみよう！";
-       message.style.color = "red";
-       document.getElementById("hintButton2").style.display =
-         "inline-block";
-     }
-   }
+function checkAnswer2() {
+ const answer =
+   Number(document.getElementById("answer2").value);
+ const message =
+   document.getElementById("message2");
+ if (answer === 12) {
+   celebrate();
+   message.textContent = "🎉 正解！";
+   message.style.color = "green";
+   setTimeout(() => {
+     document.getElementById("complete").style.display = "block";
+     document.getElementById("question3").style.display = "block";
+     document.getElementById("question3").scrollIntoView({
+       behavior: "smooth"
+     });
+   }, 3000);
+ } else {
+   message.textContent = "もう一度考えてみよう！";
+   message.style.color = "red";
+   document.getElementById("hintButton2").style.display =
+     "inline-block";
+ }
+}
    // （2）のヒント
    function showHint2() {
      document.getElementById("hint2").style.display =
