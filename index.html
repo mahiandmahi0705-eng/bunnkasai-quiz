@@ -288,14 +288,17 @@
      const message =
        document.getElementById("message2");
      if (answer === 12) {
-       message.textContent = "🎉 正解！";
-       message.style.color = "green";
-       document.getElementById("complete").style.display =
-         "block";
-       document.getElementById("complete").scrollIntoView({
-         behavior: "smooth"
-       });
-     } else {
+ celebrate();
+ message.textContent = "🎉 正解！";
+ message.style.color = "green";
+ setTimeout(() => {
+   document.getElementById("complete").style.display = "block";
+   document.getElementById("complete").scrollIntoView({
+     behavior: "smooth"
+   });
+ }, 3000);
+}
+     else {
        message.textContent =
          "もう一度考えてみよう！";
        message.style.color = "red";
