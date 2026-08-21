@@ -12,23 +12,50 @@
      text-align: center;
    }
    .container {
-     max-width: 600px;
+     max-width: 700px;
      margin: 0 auto;
-     padding: 40px 20px;
+     padding: 30px 20px;
    }
    h1 {
      font-size: 36px;
-     margin-top: 80px;
+     margin-top: 30px;
    }
-   p {
-     font-size: 20px;
+   h2 {
+     margin-top: 40px;
+   }
+   .question {
+     background: white;
+     padding: 25px;
+     margin-top: 25px;
+     border-radius: 15px;
+     text-align: left;
+     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+   }
+   .question p {
+     font-size: 18px;
      line-height: 1.8;
-}
-   button {
+   }
+   .figure {
+     margin: 25px 0;
+     padding: 40px 10px;
+     border: 2px dashed #aaa;
+     text-align: center;
+     color: #777;
+   }
+   input {
      font-size: 22px;
-     padding: 15px 50px;
+     width: 150px;
+     padding: 10px;
+     text-align: center;
+     border: 2px solid #aaa;
+     border-radius: 8px;
+   }
+   button {
+     font-size: 18px;
+     padding: 12px 25px;
+     margin: 15px 5px;
      border: none;
-     border-radius: 12px;
+     border-radius: 10px;
      cursor: pointer;
      background: #333;
      color: white;
@@ -36,26 +63,142 @@
    button:hover {
      opacity: 0.8;
    }
+   .hint {
+     display: none;
+     background: #fff8d6;
+     padding: 15px;
+     margin-top: 15px;
+     border-radius: 10px;
+     line-height: 1.7;
+   }
+   .message {
+     font-size: 20px;
+     font-weight: bold;
+     margin-top: 15px;
+   }
+   #question2 {
+     display: none;
+   }
+   #complete {
+     display: none;
+     margin-top: 40px;
+     background: white;
+     padding: 30px;
+     border-radius: 15px;
+   }
 </style>
 </head>
 <body>
 <div class="container">
 <h1>文化祭クイズ</h1>
+<div class="question">
+<h2>第1問</h2>
 <p>
-     QRコードを読み取ってくれて<br>
-     ありがとうございます！
+       Ben cycles at the same rate throughout from home to school.
+       The graph shows the distance Ben cycles for the first 15 minutes.
+</p>
+<div class="figure">
+       ここにStudyエイドで作った図が入ります
+</div>
+<p>
+       The distance between Ben's home and school is 7.5 km.
+</p>
+<!-- （1） -->
+<div id="question1">
+<h3>（1）</h3>
+<p>
+         How many minutes does Ben take to cycle from home to school?
 </p>
 <p>
-     それでは、クイズに挑戦しよう！
+         Ans:
+<input type="number" id="answer1" step="any">
+         min
 </p>
-<button onclick="startQuiz()">スタート</button>
+<button onclick="checkAnswer1()">答える</button>
+<div id="message1" class="message"></div>
+<button id="hintButton1" onclick="showHint1()" style="display:none;">
+         💡 ヒントを見る
+</button>
+<div id="hint1" class="hint">
+         15分で3km進みます。<br>
+         7.5kmは3kmの何倍ですか？
+</div>
+</div>
+<!-- （2） -->
+<div id="question2">
+<h3>（2）</h3>
+<p>
+         How many kilometers does Ben cycle in 1 hour?
+</p>
+<p>
+         Ans:
+<input type="number" id="answer2" step="any">
+         km
+</p>
+<button onclick="checkAnswer2()">答える</button>
+<div id="message2" class="message"></div>
+<button id="hintButton2" onclick="showHint2()" style="display:none;">
+         💡 ヒントを見る
+</button>
+<div id="hint2" class="hint">
+         1時間は60分です。<br>
+         15分で3km進むなら、60分では何km進みますか？
+</div>
+</div>
+</div>
+<!-- 第1問クリア -->
+<div id="complete">
+<h2>🎉 第1問クリア！</h2>
+<p>
+       おめでとう！<br>
+       次の問題に進もう！
+</p>
+</div>
 </div>
 <script>
-   function startQuiz() {
-     alert("クイズスタート！");
+   function checkAnswer1() {
+     const answer = Number(document.getElementById("answer1").value);
+     const message = document.getElementById("message1");
+     if (answer === 37.5) {
+       message.textContent = "🎉 正解！";
+       message.style.color = "green";
+       document.getElementById("question2").style.display = "block";
+       document.getElementById("question2").scrollIntoView({
+         behavior: "smooth"
+       });
+     } else {
+       message.textContent = "もう一度考えてみよう！";
+       message.style.color = "red";
+       document.getElementById("hintButton1").style.display = "inline-block";
+     }
+   }
+   function showHint1() {
+     document.getElementById("hint1").style.display = "block";
+   }
+   function checkAnswer2() {
+     const answer = Number(document.getElementById("answer2").value);
+     const message = document.getElementById("message2");
+     if (answer === 12) {
+       message.textContent = "🎉 正解！";
+       message.style.color = "green";
+       document.getElementById("complete").style.display = "block";
+       document.getElementById("complete").scrollIntoView({
+         behavior: "smooth"
+       });
+     } else {
+       message.textContent = "もう一度考えてみよう！";
+       message.style.color = "red";
+       document.getElementById("hintButton2").style.display = "inline-block";
+     }
+   }
+   function showHint2() {
+     document.getElementById("hint2").style.display = "block";
    }
 </script>
 </body>
 </html>
+コンテキスト メニューあり
+
+
 
 
