@@ -248,14 +248,27 @@
      const message =
        document.getElementById("message1");
      if (answer === 37.5) {
-        celebrate();
-        message.textContent = "🎉 正解！";
-       message.style.color = "green";
-       document.getElementById("question2").style.display = "block";
-       document.getElementById("question2").scrollIntoView({
-         behavior: "smooth"
-       });
-     } else {
+
+  celebrate();
+
+  message.textContent = "🎉 正解！";
+
+  message.style.color = "green";
+
+  setTimeout(() => {
+
+    document.getElementById("question2").style.display = "block";
+
+    document.getElementById("question2").scrollIntoView({
+
+      behavior: "smooth"
+
+    });
+
+  }, 3000);
+
+}
+   else {
        message.textContent =
          "もう一度考えてみよう！";
        message.style.color = "red";
