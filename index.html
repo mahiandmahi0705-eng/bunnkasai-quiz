@@ -143,7 +143,6 @@
    transform: translateY(110vh) rotate(720deg);
  }
 }
-コンテキスト メニューあり
 </style>
 </head>
 <body>
@@ -294,6 +293,22 @@
      document.getElementById("hint2").style.display =
        "block";
    }
+   function celebrate() {
+ for (let i = 0; i < 80; i++) {
+   const confetti = document.createElement("div");
+   confetti.className = "confetti";
+   confetti.style.left =
+     Math.random() * 100 + "vw";
+   confetti.style.animationDelay =
+     Math.random() * 0.5 + "s";
+   confetti.style.transform =
+     "rotate(" + Math.random() * 360 + "deg)";
+   document.body.appendChild(confetti);
+   setTimeout(() => {
+     confetti.remove();
+   }, 3000);
+ }
+}
 </script>
 </body>
 </html>
