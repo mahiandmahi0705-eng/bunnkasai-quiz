@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -130,6 +129,21 @@
    transform: translateY(110vh) rotate(720deg);
  }
 }
+   .confetti {
+ position: fixed;
+ width: 10px;
+ height: 18px;
+ top: -20px;
+ z-index: 9999;
+ pointer-events: none;
+ animation: confetti-fall 2.5s linear forwards;
+}
+@keyframes confetti-fall {
+ to {
+   transform: translateY(110vh) rotate(720deg);
+ }
+}
+コンテキスト メニューあり
 </style>
 </head>
 <body>
