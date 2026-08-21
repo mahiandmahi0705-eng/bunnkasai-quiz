@@ -299,8 +299,23 @@
  for (let i = 0; i < 80; i++) {
    const confetti = document.createElement("div");
    confetti.className = "confetti";
-   const colors = ["#ff4d4d", "#4d79ff", "#4dcc77", "#ffd24d", "#ff66cc"];
+   const colors = [
 
+  "red",
+
+  "blue",
+
+  "green",
+
+  "gold",
+
+  "hotpink"
+
+];
+
+confetti.style.background =
+
+  colors[Math.floor(Math.random() * colors.length)];
 confetti.style.background =
 
   colors[Math.floor(Math.random() * colors.length)];
