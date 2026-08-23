@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A-Level H2（基礎）に挑戦！ 第4問</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Yu Gothic",sans-serif;background:#f5f5f5;color:#222;text-align:center}
+.container{max-width:760px;margin:auto;padding:24px 14px 50px}
+h1{font-size:32px;line-height:1.25;margin-top:22px}
+h2{margin-top:22px}
+p{font-size:18px;line-height:1.7}
+.box{background:white;padding:22px;margin-top:22px;border-radius:15px;box-shadow:0 2px 8px rgba(0,0,0,.1);text-align:left}
+.center{text-align:center}
+button{padding:11px 18px;margin:7px 4px;font-size:16px;border:0;border-radius:10px;background:#333;color:white;cursor:pointer}
+button:hover{opacity:.85}
+.choice{display:grid;gap:9px;margin:12px 0}
+.choice button{width:100%;text-align:left;margin:0;background:#444}
+.message{min-height:28px;text-align:center;font-weight:bold;font-size:18px;margin-top:10px}
+.tip{background:#eef7ff;padding:14px;border-radius:12px;margin-top:14px;line-height:1.7}
+.math{font-size:20px;text-align:center;overflow-wrap:anywhere}
+.graph-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px auto;max-width:520px}
+.graph-choice{background:white!important;color:#222!important;border:2px solid #aaa!important;padding:6px!important;min-height:135px}
+.graph-choice svg{width:100%;height:105px;display:block}
+.graph-choice:hover{border-color:#333!important}
+@media(max-width:420px){.graph-grid{gap:5px}.graph-choice{min-height:115px;padding:3px!important}.graph-choice svg{height:90px}}
+.change-table{width:100%;max-width:430px;margin:16px auto;border-collapse:collapse;table-layout:fixed;background:#fff}
+.change-table th,.change-table td{border:1px solid #999;padding:10px 4px;text-align:center;font-size:16px}
+.change-table th{background:#f0f0f0}
+.arrow{font-size:22px;font-weight:bold}
+#quiz,#s2,#s3,#s4,#complete{display:none}
+.diagram{width:100%;max-width:380px;margin:12px auto;display:block}
+.lang{background:#315d87}
+@media(max-width:420px){
+  .container{padding-left:9px;padding-right:9px}
+  .box{padding:16px 11px}
+  h1{font-size:28px}
+  p{font-size:16px}
+  .math{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="start">
+  <h1>🇸🇬 A-Level H2（基礎）<br>に挑戦！</h1>
+  <h2>第4問・微分の応用</h2>
+  <p>「微分を使って、最も効率のよい形を探す」問題を体験しよう。</p>
+  <button onclick="startQuiz()">START</button>
+</div>
+
+<div id="quiz">
+
+<div class="box">
+  <h2>Problem</h2>
+  <p>
+    A model consists of a cylindrical part and a hemispherical dome.
+    The dome has radius <strong>r</strong>, and the cylinder has radius <strong>r + 3</strong> and height <strong>h</strong>.
+    The total volume is fixed at <strong>1000π cm³</strong>.
+  </p>
+
+  <svg class="diagram" viewBox="0 -25 360 355" aria-label="hemisphere on a cylinder">
+    <ellipse cx="180" cy="75" rx="85" ry="22" fill="none" stroke="#333" stroke-width="3"/>
+    <path d="M95 75 A85 85 0 0 1 265 75" fill="none" stroke="#333" stroke-width="3"/>
+    <line x1="95" y1="75" x2="95" y2="260" stroke="#333" stroke-width="3"/>
+    <line x1="265" y1="75" x2="265" y2="260" stroke="#333" stroke-width="3"/>
+    <ellipse cx="180" cy="260" rx="85" ry="22" fill="none" stroke="#333" stroke-width="3"/>
+    <line x1="180" y1="75" x2="255" y2="75" stroke="#777" stroke-width="2"/>
+    <text x="212" y="65" font-size="18">r + 3</text>
+    <line x1="180" y1="75" x2="225" y2="42" stroke="#777" stroke-width="2"/>
+    <text x="203" y="35" font-size="18">r</text>
+    <line x1="285" y1="80" x2="285" y2="255" stroke="#777" stroke-width="2"/>
+    <text x="294" y="175" font-size="18">h</text>
+  </svg>
+
+  <p><strong>Goal:</strong> Find the dimensions that make the total surface area as small as possible.</p>
+  <div class="center"><button onclick="show1()">STEP 1へ</button></div>
+</div>
+
+<div id="s1" class="box" style="display:none">
+  <h2>STEP 1</h2>
+
+  <div id="s1-en">
+    <p><strong>What quantity should be minimised?</strong></p>
+    <div class="choice">
+      <button onclick="step1(false)">Volume</button>
+      <button onclick="step1(true)">Surface area</button>
+      <button onclick="step1(false)">Height</button>
+    </div>
+  </div>
+
+  <div id="s1-ja" style="display:none">
+    <p><strong>何を最小にすればよいでしょう？</strong></p>
+    <div class="choice">
+      <button onclick="step1(false)">体積</button>
+      <button onclick="step1(true)">表面積</button>
+      <button onclick="step1(false)">高さ</button>
+    </div>
+  </div>
+
+  <div class="center">
+    <button class="lang" onclick="toggleLang('s1')">🇯🇵 日本語で見る / English</button>
+  </div>
+
+  <div id="m1" class="message"></div>
+  <div class="center"><button id="n1" onclick="show2()" style="display:none">STEP 2へ</button></div>
+</div>
+
+<div id="s2" class="box">
+  <h2>STEP 2</h2>
+
+  <div id="s2-en">
+    <p><strong>Which equation correctly represents the fixed volume?</strong></p>
+    <div class="choice">
+      <button onclick="step2(true)">⅔πr³ + π(r+3)²h = 1000π</button>
+      <button onclick="step2(false)">πr² + 2π(r+3)h = 1000π</button>
+      <button onclick="step2(false)">4⁄3πr³ + π(r+3)²h = 1000π</button>
+    </div>
+  </div>
+
+  <div id="s2-ja" style="display:none">
+    <p><strong>体積が一定であることを表す正しい式はどれでしょう？</strong></p>
+    <div class="choice">
+      <button onclick="step2(true)">⅔πr³ + π(r+3)²h = 1000π</button>
+      <button onclick="step2(false)">πr² + 2π(r+3)h = 1000π</button>
+      <button onclick="step2(false)">4⁄3πr³ + π(r+3)²h = 1000π</button>
+    </div>
+  </div>
+
+  <div class="center">
+    <button class="lang" onclick="toggleLang('s2')">🇯🇵 日本語で見る / English</button>
+  </div>
+
+  <div id="m2" class="message"></div>
+  <div id="tip2" class="tip" style="display:none">
+    半球の体積は球の半分。ここから h を r の式に直すと、
+    <div class="math">h = (3000 − 2r³) / [3(r+3)²]</div>
+  </div>
+  <div class="center"><button id="n2" onclick="show3()" style="display:none">STEP 3へ</button></div>
+</div>
+
+<div id="s3" class="box">
+  <h2>STEP 3　Find the idea!</h2>
+
+  <div id="s3-en">
+    <p><strong>Which graph shows a minimum point?</strong></p>
+  </div>
+  <div id="s3-ja" style="display:none">
+    <p><strong>最小値をもつグラフはどれでしょう？</strong></p>
+  </div>
+
+  <div class="graph-grid">
+    <button class="graph-choice" onclick="step3Graph(false)" aria-label="increasing graph">
+      <svg viewBox="0 0 120 100">
+        <line x1="15" y1="85" x2="110" y2="85" stroke="#777" stroke-width="2"/>
+        <line x1="15" y1="90" x2="15" y2="10" stroke="#777" stroke-width="2"/>
+        <path d="M25 78 C50 68,75 48,105 20" fill="none" stroke="#222" stroke-width="4"/>
+      </svg>
+    </button>
+
+    <button class="graph-choice" onclick="step3Graph(true)" aria-label="minimum graph">
+      <svg viewBox="0 0 120 100">
+        <line x1="15" y1="85" x2="110" y2="85" stroke="#777" stroke-width="2"/>
+        <line x1="15" y1="90" x2="15" y2="10" stroke="#777" stroke-width="2"/>
+        <path d="M25 20 Q60 88 105 20" fill="none" stroke="#222" stroke-width="4"/>
+        <line x1="43" y1="74" x2="78" y2="74" stroke="#777" stroke-width="2" stroke-dasharray="4 3"/>
+      </svg>
+    </button>
+
+    <button class="graph-choice" onclick="step3Graph(false)" aria-label="maximum graph">
+      <svg viewBox="0 0 120 100">
+        <line x1="15" y1="85" x2="110" y2="85" stroke="#777" stroke-width="2"/>
+        <line x1="15" y1="90" x2="15" y2="10" stroke="#777" stroke-width="2"/>
+        <path d="M25 78 Q60 10 105 78" fill="none" stroke="#222" stroke-width="4"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="center">
+    <button class="lang" onclick="toggleLang('s3')">🇯🇵 日本語で見る / English</button>
+  </div>
+
+  <div id="m3" class="message"></div>
+
+  <div id="s3discover" style="display:none">
+    <div class="tip">
+      <div id="discover-en">
+        <strong>💡 Look at the tangent at the minimum point.</strong><br>
+        At the bottom of the curve, the tangent is horizontal.<br><br>
+        Horizontal tangent → gradient = 0<br><br>
+        In A-Level Mathematics, we use <strong>Differentiation</strong> to investigate the gradient of a graph.
+        <div class="math">dS/dr = 0</div>
+      </div>
+      <div id="discover-ja" style="display:none">
+        <strong>💡 最小点での接線に注目！</strong><br>
+        グラフの一番低いところでは、接線が水平になります。<br><br>
+        接線が水平 → 傾き = 0<br><br>
+        A-Level Mathematicsでは、グラフの傾きを調べるために
+        <strong>Differentiation（微分）</strong>を使います。
+        <div class="math">dS/dr = 0</div>
+      </div>
+    </div>
+
+    <div class="center">
+      <button class="lang" onclick="toggleDiscover()">🇯🇵 日本語で見る / English</button>
+    </div>
+
+    <div id="candidate" class="tip">
+      この問題では、この条件を数値的に解くと最小値の候補は
+      <div class="math">r ≈ 4.93 cm</div>
+      となります。次は、本当に最小かを増減表で確かめよう。
+    </div>
+    <div class="center"><button id="n3" onclick="show4()">STEP 4へ</button></div>
+  </div>
+</div>
+
+<div id="s4" class="box">
+  <h2>STEP 4　Read the table</h2>
+
+  <table class="change-table">
+    <tr><th>r</th><td>4.8</td><td>4.93</td><td>5.0</td></tr>
+    <tr><th>dS/dr</th><td>−</td><td>0</td><td>＋</td></tr>
+    <tr><th>Surface area S</th><td class="arrow">↘</td><td>●</td><td class="arrow">↗</td></tr>
+  </table>
+
+  <div id="s4-en">
+    <p><strong>What does this table tell us about the surface area?</strong></p>
+    <div class="choice">
+      <button onclick="step4a(true)">It decreases, then increases.</button>
+      <button onclick="step4a(false)">It increases, then decreases.</button>
+      <button onclick="step4a(false)">It keeps decreasing.</button>
+    </div>
+  </div>
+
+  <div id="s4-ja" style="display:none">
+    <p><strong>この増減表から、表面積について何がわかりますか？</strong></p>
+    <div class="choice">
+      <button onclick="step4a(true)">減少したあと、増加する。</button>
+      <button onclick="step4a(false)">増加したあと、減少する。</button>
+      <button onclick="step4a(false)">ずっと減少する。</button>
+    </div>
+  </div>
+
+  <div class="center">
+    <button class="lang" onclick="toggleLang('s4')">🇯🇵 日本語で見る / English</button>
+  </div>
+
+  <div id="m4a" class="message"></div>
+
+  <div id="s4b" style="display:none;margin-top:22px;border-top:1px solid #ddd;padding-top:18px">
+    <div id="s4b-en">
+      <p><strong>So, what happens at r ≈ 4.93?</strong></p>
+      <div class="choice">
+        <button onclick="step4b(true)">The surface area is a minimum.</button>
+        <button onclick="step4b(false)">The surface area is a maximum.</button>
+        <button onclick="step4b(false)">Nothing special happens.</button>
+      </div>
+    </div>
+
+    <div id="s4b-ja" style="display:none">
+      <p><strong>では、r ≈ 4.93 のとき表面積はどうなりますか？</strong></p>
+      <div class="choice">
+        <button onclick="step4b(true)">表面積が最小になる。</button>
+        <button onclick="step4b(false)">表面積が最大になる。</button>
+        <button onclick="step4b(false)">特に変化はない。</button>
+      </div>
+    </div>
+
+    <div class="center">
+      <button class="lang" onclick="toggleLang('s4b')">🇯🇵 日本語で見る / English</button>
+    </div>
+    <div id="m4b" class="message"></div>
+  </div>
+</div>
+
+<div id="complete" class="box">
+  <h2 class="center">🎉 A-Level H2（基礎）Clear!</h2>
+  <div class="tip">
+    <strong>Singapore Mathematics Point!</strong><br>
+    この問題では、条件から1つの変数の式を作り、
+    <strong>微分して最適な値を探す</strong>という流れを使いました。<br><br>
+    微分は「接線の傾きを求める」だけでなく、
+    <strong>最も小さい・最も大きい設計を考える道具</strong>として使えます。
+  </div>
+  <p class="center">※これはA-Level H2向け教材の考え方をもとにした文化祭用の体験問題です。</p>
+</div>
+
+</div>
+</div>
+
+<script>
+function toggleLang(section){
+  const en=document.getElementById(section+"-en");
+  const ja=document.getElementById(section+"-ja");
+  if(!en||!ja)return;
+  const englishVisible=en.style.display!=="none";
+  en.style.display=englishVisible?"none":"block";
+  ja.style.display=englishVisible?"block":"none";
+}
+function startQuiz(){document.getElementById("start").style.display="none";document.getElementById("quiz").style.display="block"}
+function show1(){document.getElementById("s1").style.display="block";document.getElementById("s1").scrollIntoView({behavior:"smooth"})}
+function step1(ok){let m=document.getElementById("m1");if(ok){m.textContent="🎉 Correct! 表面積を最小にしたい。";m.style.color="green";document.getElementById("n1").style.display="inline-block"}else{m.textContent="🤔 問題で『できるだけ小さく』したい量に注目しよう。";m.style.color="#d34a20"}}
+function show2(){document.getElementById("s2").style.display="block";document.getElementById("s2").scrollIntoView({behavior:"smooth"})}
+function step2(ok){let m=document.getElementById("m2");if(ok){m.textContent="🎉 Correct!";m.style.color="green";document.getElementById("tip2").style.display="block";document.getElementById("n2").style.display="inline-block"}else{m.textContent="🤔 半球の体積と円柱の体積を確認してみよう。";m.style.color="#d34a20"}}
+function show3(){document.getElementById("s3").style.display="block";document.getElementById("s3").scrollIntoView({behavior:"smooth"})}
+function step3Graph(ok){
+  let m=document.getElementById("m3");
+  if(ok){
+    m.textContent="🎉 Correct! This graph has a minimum point.";
+    m.style.color="green";
+    document.getElementById("s3discover").style.display="block";
+    document.getElementById("s3discover").scrollIntoView({behavior:"smooth",block:"center"});
+  }else{
+    m.textContent="🤔 Which graph has the lowest turning point? / 一番低い折り返し点があるグラフはどれ？";
+    m.style.color="#d34a20";
+  }
+}
+function toggleDiscover(){
+  const en=document.getElementById("discover-en"),ja=document.getElementById("discover-ja");
+  const e=en.style.display!=="none";
+  en.style.display=e?"none":"block";
+  ja.style.display=e?"block":"none";
+}
+function show4(){document.getElementById("s4").style.display="block";document.getElementById("s4").scrollIntoView({behavior:"smooth"})}
+function step4a(ok){
+  let m=document.getElementById("m4a");
+  if(ok){
+    m.textContent="🎉 Correct!  ↘ → ↗";
+    m.style.color="green";
+    document.getElementById("s4b").style.display="block";
+    document.getElementById("s4b").scrollIntoView({behavior:"smooth",block:"center"});
+  }else{
+    m.textContent="🤔 Look at the arrows in the last row. / 一番下の矢印に注目しよう。";
+    m.style.color="#d34a20";
+  }
+}
+function step4b(ok){
+  let m=document.getElementById("m4b");
+  if(ok){
+    m.textContent="🎉 Correct! Decrease → Increase means a minimum.";
+    m.style.color="green";
+    document.getElementById("complete").style.display="block";
+    document.getElementById("complete").scrollIntoView({behavior:"smooth"});
+  }else{
+    m.textContent="🤔 It goes down and then goes up. Where is the lowest point? / 下がってから上がるとき、一番低いところは？";
+    m.style.color="#d34a20";
+  }
+}
+</script>
+</body>
+</html>
