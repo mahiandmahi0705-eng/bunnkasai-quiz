@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ＰＳＬＥに挑戦！ 第2問</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  text-align: center;
+}
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 30px 20px;
+}
+h1 { font-size: 36px; margin-top: 50px; }
+h2 { margin-top: 30px; }
+p { font-size: 18px; line-height: 1.8; }
+.box {
+  background: white;
+  padding: 25px;
+  margin-top: 30px;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: left;
+}
+button {
+  padding: 12px 25px;
+  margin: 15px 5px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background: #333;
+  color: white;
+  cursor: pointer;
+}
+.message {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
+}
+.choice {
+  display: none;
+  background: #eef7ff;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 1.7;
+}
+.counter {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px 0;
+}
+#quiz, #challenge, #question2, #complete { display: none; }
+
+.graph {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  line-height: 0;
+}
+.graph img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: none;
+}
+.graph svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+}
+.tap-surface {
+  fill: rgba(255,255,255,0.001);
+  cursor: crosshair;
+}
+.triangle-line {
+  stroke-width: 5;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+.correct-line { stroke: #00a050; }
+.wrong-line { stroke: #e05a2a; }
+
+.c-point {
+  stroke-width: 4;
+  pointer-events: none;
+}
+.correct-point {
+  fill: rgba(0,160,80,.25);
+  stroke: #00a050;
+}
+.wrong-point {
+  fill: rgba(224,90,42,.20);
+  stroke: #e05a2a;
+}
+.c-label {
+  font-size: 38px;
+  font-weight: bold;
+  fill: #222;
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 6px;
+  pointer-events: none;
+}
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 18px;
+  top: -20px;
+  z-index: 9999;
+  pointer-events: none;
+  animation: fall 2.5s linear forwards;
+}
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(720deg); }
+}
+
+.square-line {
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  pointer-events: none;
+}
+.square-correct { stroke: #00a050; }
+.square-wrong { stroke: #e05a2a; }
+.square-point {
+  stroke-width: 4;
+  pointer-events: none;
+}
+.square-point-correct {
+  fill: rgba(0,160,80,.25);
+  stroke: #00a050;
+}
+.square-point-wrong {
+  fill: rgba(224,90,42,.20);
+  stroke: #e05a2a;
+}
+.square-label {
+  font-size: 34px;
+  font-weight: bold;
+  fill: #222;
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 6px;
+  pointer-events: none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div id="start">
+  <h1>ＰＳＬＥに挑戦</h1>
+  <p>数学の問題に挑戦しよう！</p>
+  <h2>第2問</h2>
+  <button onclick="startQuiz()">スタート</button>
+</div>
+
+<div id="quiz">
+<div class="box">
+
+<h2>第2問</h2>
+
+<div id="question1">
+<h3>（1）</h3>
+<p>線分ABと三角形をつくる点Cを、座標平面上の格子点からタップしてください。</p>
+
+<div id="graph1" class="graph">
+  <img src="question2.PNG" alt="座標平面上の線分AB">
+  <svg id="svg1" viewBox="0 0 1295 1214" preserveAspectRatio="none">
+    <line id="lineA1" class="triangle-line" x1="652.5" y1="122.5" x2="638" y2="119" style="display:none;"></line>
+    <line id="lineB1" class="triangle-line" x1="256.5" y1="661.5" x2="251" y2="647" style="display:none;"></line>
+    <circle id="cPoint1" class="c-point" cx="0" cy="0" r="22" style="display:none;"></circle>
+    <text id="cLabel1" class="c-label" x="0" y="0" style="display:none;">C</text>
+    <rect id="tap1" class="tap-surface" x="70" y="40" width="1190" height="1120"></rect>
+  </svg>
+</div>
+
+<div id="message1" class="message"></div>
+
+<div id="choice" class="choice">
+  🔎 <strong>Challenge！</strong><br>
+  実は、正解の点は全部で4つあります。<br>
+  他の3つも探してみる？
+  <br>
+  <button onclick="startChallenge()">もっと探す！</button>
+  <button onclick="goToQuestion2()">（2）へ進む</button>
+</div>
+</div>
+
+<div id="challenge">
+<h3>🔎 Challenge！</h3>
+<p>残りの正解点を探して、4つ全部見つけよう！</p>
+<div id="counter" class="counter">1 / 4 点 発見</div>
+
+<div id="graphChallenge" class="graph">
+  <img src="question2.PNG" alt="座標平面上の線分AB">
+  <svg id="svg2" viewBox="0 0 1295 1214" preserveAspectRatio="none">
+    <line id="lineA2" class="triangle-line" x1="652.5" y1="122.5" x2="638" y2="119" style="display:none;"></line>
+    <line id="lineB2" class="triangle-line" x1="256.5" y1="661.5" x2="251" y2="647" style="display:none;"></line>
+    <circle id="cPoint2" class="c-point" cx="0" cy="0" r="22" style="display:none;"></circle>
+    <text id="cLabel2" class="c-label" x="0" y="0" style="display:none;">C</text>
+    <rect id="tap2" class="tap-surface" x="70" y="40" width="1190" height="1120"></rect>
+  </svg>
+</div>
+
+<div id="challengeMessage" class="message"></div>
+<div style="text-align:center;">
+  <button id="challengeNext" onclick="goToQuestion2()" style="display:none;">
+    （2）へ進む
+  </button>
+</div>
+</div>
+
+<div id="question2">
+<h3>（2）</h3>
+<p>ここに第2問（2）の問題文を入れます。</p>
+<p>
+  Ans:
+  <input type="number" id="answer2"
+    style="width:150px;padding:10px;font-size:22px;text-align:center;border:2px solid #aaa;border-radius:8px;">
+</p>
+<button onclick="checkAnswer2()">答える</button>
+<div id="message2" class="message"></div>
+</div>
+
+</div>
+
+<div id="complete" class="box">
+<h2>🎉 第2問クリア！</h2>
+<p>おめでとう！</p>
+</div>
+
+</div>
+
+<script>
+let found = [];
+
+/*
+  元画像の格子点対応
+  x=1 → 122px、1目盛り ≒129px
+  y=0 → 1175px、1目盛り ≒132px
+
+  A=(5,8)
+  B=(2,4)
+*/
+/*
+  question2.PNG の格子線を画像上で実測した位置。
+  近似した「1マスの幅」を使わず、各格子点の中心位置を直接使うので、
+  A・B・Cを結ぶ補助線が格子点の中心に合いやすくなります。
+
+  A = (5,8)
+  B = (2,4)
+*/
+const X_POS = {
+  1: 124.5,
+  2: 256.5,
+  3: 387.5,
+  4: 519.5,
+  5: 652.5,
+  6: 782.5,
+  7: 911.5,
+  8: 1042.5,
+  9: 1172.5
+};
+
+const Y_POS = {
+  0: 1198.0,
+  1: 1063.5,
+  2: 929.0,
+  3: 793.5,
+  4: 661.5,
+  5: 526.5,
+  6: 391.5,
+  7: 257.5,
+  8: 122.5
+};
+
+const correctKeys = new Set([
+  "1,6",
+  "2,8",
+  "5,4",
+  "6,6"
+]);
+
+function startQuiz() {
+  document.getElementById("start").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+}
+
+function coordinateToPixel(x, y) {
+  return {
+    px: X_POS[x],
+    py: Y_POS[y]
+  };
+}
+
+function nearestKey(value, table) {
+  let bestKey = null;
+  let bestDistance = Infinity;
+
+  Object.keys(table).forEach(function(key) {
+    const distance = Math.abs(value - table[key]);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestKey = Number(key);
+    }
+  });
+
+  return bestKey;
+}
+
+function pixelToCoordinate(px, py) {
+  return {
+    x: nearestKey(px, X_POS),
+    y: nearestKey(py, Y_POS)
+  };
+}
+
+function eventToSvgPoint(event, svg) {
+  const rect = svg.getBoundingClientRect();
+  return {
+    x: (event.clientX - rect.left) * 1295 / rect.width,
+    y: (event.clientY - rect.top) * 1214 / rect.height
+  };
+}
+
+function showTriangle(which, x, y, isCorrect) {
+  const suffix = which === 1 ? "1" : "2";
+  const lineA = document.getElementById("lineA" + suffix);
+  const lineB = document.getElementById("lineB" + suffix);
+  const cPoint = document.getElementById("cPoint" + suffix);
+  const cLabel = document.getElementById("cLabel" + suffix);
+
+  const p = coordinateToPixel(x, y);
+
+  lineA.setAttribute("x2", p.px);
+  lineA.setAttribute("y2", p.py);
+  lineB.setAttribute("x2", p.px);
+  lineB.setAttribute("y2", p.py);
+
+  lineA.setAttribute("class", "triangle-line " + (isCorrect ? "correct-line" : "wrong-line"));
+  lineB.setAttribute("class", "triangle-line " + (isCorrect ? "correct-line" : "wrong-line"));
+
+  lineA.style.display = "block";
+  lineB.style.display = "block";
+
+  cPoint.setAttribute("cx", p.px);
+  cPoint.setAttribute("cy", p.py);
+  cPoint.setAttribute("class", "c-point " + (isCorrect ? "correct-point" : "wrong-point"));
+  cPoint.style.display = "block";
+
+  cLabel.setAttribute("x", p.px + 28);
+  cLabel.setAttribute("y", p.py - 20);
+  cLabel.style.display = "block";
+}
+
+function handleGridTap(event, mode) {
+  const svg = mode === "first"
+    ? document.getElementById("svg1")
+    : document.getElementById("svg2");
+
+  const p = eventToSvgPoint(event, svg);
+  const coord = pixelToCoordinate(p.x, p.y);
+
+  // 画像内の実際の格子点だけを対象にする
+  if (coord.x < 1 || coord.x > 9 || coord.y < 0 || coord.y > 8) {
+    return;
+  }
+
+  const key = coord.x + "," + coord.y;
+  const isCorrect = correctKeys.has(key);
+
+  showTriangle(mode === "first" ? 1 : 2, coord.x, coord.y, isCorrect);
+
+  if (mode === "first") {
+    const message = document.getElementById("message1");
+
+    if (isCorrect) {
+      if (!found.includes(key)) found.push(key);
+
+      message.textContent =
+        "🎉 正解！A・BからCへ線を引くと三角形ができました！";
+      message.style.color = "green";
+      celebrate();
+
+      setTimeout(function() {
+        document.getElementById("choice").style.display = "block";
+        document.getElementById("choice").scrollIntoView({behavior:"smooth"});
+      }, 700);
+    } else {
+      message.textContent =
+        "🤔 この点ではありません。できた三角形を見て、もう一度考えてみよう！";
+      message.style.color = "#d34a20";
+    }
+    return;
+  }
+
+  const challengeMessage = document.getElementById("challengeMessage");
+
+  if (!isCorrect) {
+    challengeMessage.textContent =
+      "🤔 この点ではありません。三角形を見比べて、もう一度探してみよう！";
+    challengeMessage.style.color = "#d34a20";
+    return;
+  }
+
+  if (found.includes(key)) {
+    challengeMessage.textContent = "⭐ この点はもう見つけたよ！";
+    challengeMessage.style.color = "#555";
+    return;
+  }
+
+  found.push(key);
+  document.getElementById("counter").textContent =
+    found.length + " / 4 点 発見";
+
+  celebrate();
+
+  if (found.length === 4) {
+    challengeMessage.textContent =
+      "🏆 Challenge Complete！4つ全部見つけた！";
+    challengeMessage.style.color = "green";
+    document.getElementById("challengeNext").style.display = "inline-block";
+  } else {
+    challengeMessage.textContent =
+      "🎉 発見！あと " + (4 - found.length) + " 点！";
+    challengeMessage.style.color = "green";
+  }
+}
+
+document.getElementById("tap1").addEventListener("click", function(event) {
+  handleGridTap(event, "first");
+});
+
+document.getElementById("tap2").addEventListener("click", function(event) {
+  handleGridTap(event, "challenge");
+});
+
+function startChallenge() {
+  document.getElementById("question1").style.display = "none";
+  document.getElementById("challenge").style.display = "block";
+  document.getElementById("counter").textContent =
+    found.length + " / 4 点 発見";
+  document.getElementById("challenge").scrollIntoView({behavior:"smooth"});
+}
+
+function goToQuestion2() {
+  document.getElementById("question1").style.display = "none";
+  document.getElementById("challenge").style.display = "none";
+  document.getElementById("question2").style.display = "block";
+  document.getElementById("question2").scrollIntoView({behavior:"smooth"});
+}
+
+let squareSelected = [];
+
+// 正解となる残り2点（順不同）
+const squareAnswerKeys = new Set(["9,5", "6,1"]);
+
+function distanceSquared(a, b) {
+  const dx = a.x - b.x;
+  const dy = a.y - b.y;
+  return dx * dx + dy * dy;
+}
+
+// 2つの候補点を、A側・B側のどちらにつなぐか決める。
+// 正解時は A→(9,5)、B→(6,1) になり、
+// 不正解時もなるべく自然な四角形になる組み合わせを選ぶ。
+function assignSquarePoints(p1, p2) {
+  const A = {x:5, y:8};
+  const B = {x:2, y:4};
+
+  const cost1 = distanceSquared(A, p1) + distanceSquared(B, p2);
+  const cost2 = distanceSquared(A, p2) + distanceSquared(B, p1);
+
+  if (cost1 <= cost2) {
+    return {nearA:p1, nearB:p2};
+  }
+  return {nearA:p2, nearB:p1};
+}
+
+function setSquarePointVisual(id, labelId, point, label, isCorrect) {
+  const c = document.getElementById(id);
+  const t = document.getElementById(labelId);
+  const p = coordinateToPixel(point.x, point.y);
+
+  c.setAttribute("cx", p.px);
+  c.setAttribute("cy", p.py);
+  c.setAttribute(
+    "class",
+    "square-point " + (isCorrect ? "square-point-correct" : "square-point-wrong")
+  );
+  c.style.display = "block";
+
+  t.setAttribute("x", p.px + 28);
+  t.setAttribute("y", p.py - 20);
+  t.textContent = label;
+  t.style.display = "block";
+}
+
+function drawQuadrilateral(p1, p2, isCorrect) {
+  const assigned = assignSquarePoints(p1, p2);
+
+  const Apx = coordinateToPixel(5, 8);
+  const Bpx = coordinateToPixel(2, 4);
+  const Aother = coordinateToPixel(assigned.nearA.x, assigned.nearA.y);
+  const Bother = coordinateToPixel(assigned.nearB.x, assigned.nearB.y);
+
+  // ABは画像にあるので、
+  // A → A側候補 → B側候補 → B の3辺だけ描く
+  const path = document.getElementById("squarePath");
+  path.setAttribute(
+    "points",
+    Apx.px + "," + Apx.py + " " +
+    Aother.px + "," + Aother.py + " " +
+    Bother.px + "," + Bother.py + " " +
+    Bpx.px + "," + Bpx.py
+  );
+  path.setAttribute(
+    "class",
+    "square-line " + (isCorrect ? "square-correct" : "square-wrong")
+  );
+  path.style.display = "block";
+
+  if (isCorrect) {
+    // 正解時は D=(9,5), E=(6,1) として表示
+    const D = {x:9, y:5};
+    const E = {x:6, y:1};
+
+    setSquarePointVisual("squarePoint1", "squareLabel1", D, "D", true);
+    setSquarePointVisual("squarePoint2", "squareLabel2", E, "E", true);
+  } else {
+    // 不正解時は選択順を①②で表示
+    setSquarePointVisual("squarePoint1", "squareLabel1", p1, "①", false);
+    setSquarePointVisual("squarePoint2", "squareLabel2", p2, "②", false);
+  }
+}
+
+function resetSquare() {
+  squareSelected = [];
+
+  document.getElementById("squarePath").style.display = "none";
+  document.getElementById("squarePoint1").style.display = "none";
+  document.getElementById("squarePoint2").style.display = "none";
+  document.getElementById("squareLabel1").style.display = "none";
+  document.getElementById("squareLabel2").style.display = "none";
+
+  document.getElementById("squareStatus").textContent = "0 / 2 点 選択";
+  document.getElementById("message2").textContent = "";
+  document.getElementById("resetSquareButton").style.display = "none";
+}
+
+function handleSquareTap(event) {
+  const svg = document.getElementById("svgSquare");
+  const p = eventToSvgPoint(event, svg);
+  const coord = pixelToCoordinate(p.x, p.y);
+
+  if (coord.x < 1 || coord.x > 9 || coord.y < 0 || coord.y > 8) {
+    return;
+  }
+
+  // 3点目を押したら、その点を新しい1点目としてスタート
+  if (squareSelected.length >= 2) {
+    resetSquare();
+  }
+
+  const key = coord.x + "," + coord.y;
+
+  // 同じ点を2回選ぶのは避ける
+  if (squareSelected.length === 1) {
+    const firstKey = squareSelected[0].x + "," + squareSelected[0].y;
+    if (key === firstKey) {
+      document.getElementById("message2").textContent =
+        "同じ点ではなく、もう1つ別の格子点を選んでね。";
+      document.getElementById("message2").style.color = "#555";
+      return;
+    }
+  }
+
+  squareSelected.push({x:coord.x, y:coord.y});
+  document.getElementById("squareStatus").textContent =
+    squareSelected.length + " / 2 点 選択";
+
+  if (squareSelected.length === 1) {
+    const first = squareSelected[0];
+    setSquarePointVisual(
+      "squarePoint1",
+      "squareLabel1",
+      first,
+      "①",
+      false
+    );
+    document.getElementById("message2").textContent =
+      "もう1点選んでください。";
+    document.getElementById("message2").style.color = "#555";
+    return;
+  }
+
+  const keys = new Set([
+    squareSelected[0].x + "," + squareSelected[0].y,
+    squareSelected[1].x + "," + squareSelected[1].y
+  ]);
+
+  const isCorrect =
+    keys.size === 2 &&
+    [...squareAnswerKeys].every(function(k) { return keys.has(k); });
+
+  drawQuadrilateral(squareSelected[0], squareSelected[1], isCorrect);
+
+  if (isCorrect) {
+    document.getElementById("message2").textContent =
+      "🎉 正解！正方形ABEDができました！";
+    document.getElementById("message2").style.color = "green";
+    celebrate();
+
+    setTimeout(function() {
+      document.getElementById("complete").style.display = "block";
+      document.getElementById("complete").scrollIntoView({behavior:"smooth"});
+    }, 1200);
+  } else {
+    document.getElementById("message2").textContent =
+      "🤔 この四角形は正方形ではありません。形を見て、もう一度考えてみよう！";
+    document.getElementById("message2").style.color = "#d34a20";
+    document.getElementById("resetSquareButton").style.display = "inline-block";
+  }
+}
+
+document.getElementById("tapSquare").addEventListener("click", handleSquareTap);
+
+function celebrate() {
+  for (let i=0; i<50; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    const colors = ["red","blue","green","gold","hotpink"];
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.left = Math.random()*100 + "vw";
+    c.style.animationDelay = Math.random()*0.5 + "s";
+    document.body.appendChild(c);
+    setTimeout(function() { c.remove(); }, 3000);
+  }
+}
+</script>
+
+</body>
+</html>
