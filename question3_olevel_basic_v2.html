@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O-Level（基礎）に挑戦！ 第3問</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Yu Gothic",sans-serif;background:#f5f5f5;color:#222;text-align:center}.container{max-width:760px;margin:auto;padding:28px 16px 50px}h1{font-size:34px;margin-top:28px}p{font-size:18px;line-height:1.75}.box{background:#fff;padding:24px;margin-top:24px;border-radius:15px;box-shadow:0 2px 8px rgba(0,0,0,.1);text-align:left}.center{text-align:center}button{min-height:46px;padding:11px 20px;margin:8px 5px;font-size:17px;border:0;border-radius:10px;background:#333;color:#fff;cursor:pointer}.secondary{background:#666}.lang-btn{background:#315d87}.challenge-btn{background:#8a4a00}.message{min-height:30px;font-size:19px;font-weight:bold;margin-top:12px;text-align:center}.tip,.summary{background:#eef7ff;border-radius:12px;padding:15px;margin-top:16px;line-height:1.7}.english-problem{border-left:5px solid #333;padding-left:16px}.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:18px 0}.card{width:58px;height:76px;border:2px solid #333;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold}#quiz,#step2,#step3,#step4,#challengeChoice,#challenge2,#challenge3,#complete{display:none}.choice-list{display:grid;gap:10px;margin-top:14px}.choice-list button{width:100%;margin:0;text-align:left;background:#444}.table-wrap{overflow-x:auto}.possibility{border-collapse:collapse;margin:14px auto;min-width:420px;background:#fff}.possibility th,.possibility td{border:1px solid #aaa;width:64px;height:56px;text-align:center;font-size:17px}.possibility th{background:#f0f0f0}.tapcell{cursor:pointer}.selected{background:#ffe2c9;font-weight:bold}.impossible{background:#f0f0f0;color:#777}.fraction-input{display:flex;flex-direction:column;align-items:center;width:90px;margin:10px auto}.fraction-input input{width:78px;padding:8px;font-size:22px;text-align:center;border:2px solid #aaa;border-radius:8px}.fraction-bar{width:78px;height:2px;background:#222;margin:5px 0}.equation{font-size:23px;text-align:center;margin:18px 0}.small{font-size:14px;color:#666}.confetti{position:fixed;width:10px;height:18px;top:-20px;z-index:9999;pointer-events:none;animation:fall 2.5s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+</style>
+</head>
+<body>
+<div class="container">
+<div id="start"><h1>🇸🇬 O-Level（基礎）<br>に挑戦！</h1><h2>第3問</h2><p>Singapore O-Level Mathematics – Basic Practice</p><button onclick="startQuiz()">START</button></div>
+<div id="quiz">
+<div class="box">
+<h2>Question</h2>
+<div class="english-problem">
+<p>A box contains five cards numbered <strong>4, 5, 7, 8 and 9</strong>. Two cards are picked at random, one at a time, <strong>without replacement</strong>.</p>
+<p><strong>(a)</strong> Draw a possibility diagram to show all possible outcomes.</p>
+</div>
+<div class="cards"><div class="card">4</div><div class="card">5</div><div class="card">7</div><div class="card">8</div><div class="card">9</div></div>
+<div class="center"><button onclick="showStep1()">STEP 1へ</button></div>
+</div>
+
+<div id="step1" class="box" style="display:none;">
+<h2>STEP 1</h2>
+<div id="step1-en"><p><strong>What does “without replacement” mean?</strong></p><div class="choice-list">
+<button onclick="checkStep1(false)">The first card is put back before the second card is picked.</button>
+<button onclick="checkStep1(true)">The first card is not put back before the second card is picked.</button>
+</div></div>
+<div id="step1-ja" style="display:none;"><p><strong>「without replacement（戻さずに）」とはどういう意味？</strong></p><div class="choice-list">
+<button onclick="checkStep1(false)">1枚目のカードを戻してから、2枚目を引く。</button>
+<button onclick="checkStep1(true)">1枚目のカードを戻さずに、2枚目を引く。</button>
+</div></div>
+<div class="center"><button class="lang-btn" onclick="toggleLang('step1')">🇯🇵 日本語で見る / English</button></div>
+<div id="message1" class="message"></div><div class="center"><button id="step1Next" onclick="showStep2()" style="display:none;">STEP 2へ</button></div>
+</div>
+
+<div id="step2" class="box">
+<h2>STEP 2</h2>
+<div id="step2-en"><p><strong>Tap all the impossible outcomes.</strong></p></div>
+<div id="step2-ja" style="display:none;"><p><strong>起こりえない組合せをすべてタップしよう！</strong></p></div>
+<div class="center"><button class="lang-btn" onclick="toggleLang('step2')">🇯🇵 日本語で見る / English</button></div>
+<div id="tableStep2"></div>
+<div class="center"><button onclick="checkImpossible()">CHECK</button><button class="secondary" onclick="resetStep2()">やり直す</button></div>
+<div id="message2" class="message"></div>
+<div id="possibilityInfo" class="tip" style="display:none;"><strong>💡 Possibility diagram</strong><br>このように、起こりうる結果を表に整理したものを <strong>possibility diagram</strong> といいます。<br>25個のマスのうち、同じカードを2回引く5通りは起こらないので、起こりうる結果は <strong>20通り</strong> です。</div>
+<div class="center"><button id="step2Next" onclick="showStep3()" style="display:none;">STEP 3へ</button></div>
+</div>
+
+<div id="step3" class="box">
+<h2>STEP 3</h2>
+<div class="english-problem"><p><strong>(b)(i)</strong> Find the probability that both numbers are odd.</p></div>
+<div id="step3-en"><p><strong>Tap all the outcomes where both numbers are odd.</strong></p></div>
+<div id="step3-ja" style="display:none;"><p><strong>2つの数がどちらも奇数になる組合せを、すべてタップしよう！</strong></p></div>
+<div class="center"><button class="lang-btn" onclick="toggleLang('step3')">🇯🇵 日本語で見る / English</button></div>
+<div id="tableStep3"></div>
+<div class="center"><button onclick="checkOddPairs()">CHECK</button><button class="secondary" onclick="resetStep3()">やり直す</button></div>
+<div id="message3" class="message"></div><div class="center"><button id="step3Next" onclick="showStep4()" style="display:none;">STEP 4へ</button></div>
+</div>
+
+<div id="step4" class="box">
+<h2>STEP 4</h2><p class="center"><strong>Complete the probability.</strong></p>
+<div class="equation">P(both numbers are odd) =</div>
+<div class="fraction-input"><input id="oddNum" type="number" inputmode="numeric"><div class="fraction-bar"></div><input id="oddDen" type="number" inputmode="numeric"></div>
+<div class="center"><button onclick="checkOddFraction()">答える</button></div><div id="message4" class="message"></div>
+</div>
+
+<div id="challengeChoice" class="box">
+<h2>🔎 Challenge!</h2><p class="center">Great job! Want another challenge?<br>本来の練習問題には、まだ続きがあります。</p>
+<div class="center"><button class="challenge-btn" onclick="startChallenge2()">挑戦する！🔥</button><button onclick="showComplete()">クリア画面へ</button></div>
+</div>
+
+<div id="challenge2" class="box">
+<h2>Challenge (ii)</h2>
+<div class="english-problem"><p><strong>Find the probability that the sum of the two numbers is less than 10.</strong></p></div>
+<div id="challenge2-en"><p><strong>Tap all the outcomes that satisfy the condition.</strong></p></div>
+<div id="challenge2-ja" style="display:none;"><p><strong>2つの数の和が10未満になる組合せをすべてタップしよう！</strong></p></div>
+<div class="center"><button class="lang-btn" onclick="toggleLang('challenge2')">🇯🇵 日本語で見る / English</button></div>
+<div id="tableChallenge2"></div>
+<div class="center"><button onclick="checkChallenge2()">CHECK</button><button class="secondary" onclick="resetChallenge(2)">やり直す</button></div>
+<div id="challenge2Message" class="message"></div>
+<div id="challenge2Fraction" style="display:none;"><p class="center"><strong>Probability =</strong></p><div class="fraction-input"><input id="c2Num" type="number"><div class="fraction-bar"></div><input id="c2Den" type="number"></div><div class="center"><button onclick="checkChallenge2Fraction()">答える</button></div><div id="challenge2FracMessage" class="message"></div></div>
+</div>
+
+<div id="challenge3" class="box">
+<h2>🔥 Final Challenge (iii)</h2>
+<div class="english-problem"><p><strong>Find the probability that the product of the two numbers is a square number.</strong></p></div>
+<div id="challenge3-en"><p><strong>Tap all the outcomes that satisfy the condition.</strong></p></div>
+<div id="challenge3-ja" style="display:none;"><p><strong>2つの数の積が平方数になる組合せをすべてタップしよう！</strong></p></div>
+<div class="center"><button class="lang-btn" onclick="toggleLang('challenge3')">🇯🇵 日本語で見る / English</button></div>
+<div id="tableChallenge3"></div>
+<div class="center"><button onclick="checkChallenge3()">CHECK</button><button class="secondary" onclick="resetChallenge(3)">やり直す</button></div>
+<div id="challenge3Message" class="message"></div>
+<div id="challenge3Fraction" style="display:none;"><p class="center"><strong>Probability =</strong></p><div class="fraction-input"><input id="c3Num" type="number"><div class="fraction-bar"></div><input id="c3Den" type="number"></div><div class="center"><button onclick="checkChallenge3Fraction()">答える</button></div><div id="challenge3FracMessage" class="message"></div></div>
+</div>
+
+<div id="complete" class="box">
+<h2 class="center">🎉 O-Level（基礎）Clear!</h2>
+<div class="summary">
+<h3>🇸🇬 Singapore Mathematics Point!</h3>
+<p>今回の問題では、<strong>possibility diagram</strong> を使って、起こりうる場合を整理しました。</p>
+<p>日本の高校数学では、確率を考えるときに <strong>樹形図などを使って整理する方法</strong>もよく使います。</p>
+<p>シンガポールの教材では、今回のように <strong>possibility diagram（場合の表）</strong>を使って、起こりうる組合せを<strong>視覚的に整理して考える方法</strong>も学びます。</p>
+<p class="center"><strong>同じ数学でも、整理の仕方はいろいろ！<br>表にすると「全体」が見えてくるね。🇸🇬</strong></p>
+</div>
+<p class="small center">※今回はO-Levelに向けた基礎練習問題です。<br>実際のO-Levelでは、より発展的な問題にも取り組みます。</p>
+</div>
+</div>
+</div>
+
+<script>
+const values=[4,5,7,8,9];
+const impossibleSet=new Set(["4,4","5,5","7,7","8,8","9,9"]);
+const oddSet=new Set(["5,7","5,9","7,5","7,9","9,5","9,7"]);
+const sumUnder10Set=new Set(["4,5","5,4"]);
+const squareProductSet=new Set(["4,9","9,4"]);
+const selected={step2:new Set(),step3:new Set(),challenge2:new Set(),challenge3:new Set()};
+
+function startQuiz(){document.getElementById("start").style.display="none";document.getElementById("quiz").style.display="block"}
+function showStep1(){document.getElementById("step1").style.display="block";document.getElementById("step1").scrollIntoView({behavior:"smooth"})}
+function toggleLang(section){const en=document.getElementById(section+"-en"),ja=document.getElementById(section+"-ja");if(!en||!ja)return;const e=en.style.display!=="none";en.style.display=e?"none":"block";ja.style.display=e?"block":"none"}
+function checkStep1(correct){const m=document.getElementById("message1");if(correct){m.textContent="🎉 Correct! The first card is not put back.";m.style.color="green";document.getElementById("step1Next").style.display="inline-block"}else{m.textContent="🤔 Try again. Think about what happens to the first card.";m.style.color="#d34a20"}}
+function showStep2(){document.getElementById("step2").style.display="block";renderTable("tableStep2","step2",false);document.getElementById("step2").scrollIntoView({behavior:"smooth"})}
+function renderTable(containerId,mode,showImpossible){const container=document.getElementById(containerId);let h='<div class="table-wrap"><table class="possibility"><tr><th>1st ↓ / 2nd →</th>';values.forEach(v=>h+=`<th>${v}</th>`);h+='</tr>';values.forEach(r=>{h+=`<tr><th>${r}</th>`;values.forEach(c=>{const key=`${r},${c}`;let cls=['tapcell'],text='';if(showImpossible&&impossibleSet.has(key)){cls.push('impossible');text='×'}if(selected[mode].has(key)){cls.push('selected');text=mode==="step2"?'×':'●'}h+=`<td class="${cls.join(' ')}" onclick="toggleCell('${mode}','${key}')">${text}</td>`});h+='</tr>'});h+='</table></div>';container.innerHTML=h}
+function toggleCell(mode,key){selected[mode].has(key)?selected[mode].delete(key):selected[mode].add(key);const map={step2:["tableStep2",false],step3:["tableStep3",true],challenge2:["tableChallenge2",true],challenge3:["tableChallenge3",true]};renderTable(map[mode][0],mode,map[mode][1])}
+function setsEqual(a,b){if(a.size!==b.size)return false;for(const x of a)if(!b.has(x))return false;return true}
+function checkImpossible(){const m=document.getElementById("message2");if(setsEqual(selected.step2,impossibleSet)){m.textContent="🎉 Correct! 5 impossible outcomes found.";m.style.color="green";document.getElementById("possibilityInfo").style.display="block";document.getElementById("step2Next").style.display="inline-block"}else{m.textContent="🤔 まだ違うマスがあるよ。『同じカードを2回引けるか』を考えてみよう。";m.style.color="#d34a20"}}
+function resetStep2(){selected.step2.clear();renderTable("tableStep2","step2",false);document.getElementById("message2").textContent=""}
+function showStep3(){document.getElementById("step3").style.display="block";renderTable("tableStep3","step3",true);document.getElementById("step3").scrollIntoView({behavior:"smooth"})}
+function checkOddPairs(){const m=document.getElementById("message3");if(setsEqual(selected.step3,oddSet)){m.textContent="🎉 6 outcomes found!";m.style.color="green";document.getElementById("step3Next").style.display="inline-block"}else{m.textContent="🤔 奇数はどのカードかな？両方が奇数になるマスを探してみよう。";m.style.color="#d34a20"}}
+function resetStep3(){selected.step3.clear();renderTable("tableStep3","step3",true);document.getElementById("message3").textContent=""}
+function showStep4(){document.getElementById("step4").style.display="block";document.getElementById("step4").scrollIntoView({behavior:"smooth"})}
+function fracOK(n,d,tn,td){return Number.isFinite(n)&&Number.isFinite(d)&&d!==0&&n*td===d*tn}
+function checkOddFraction(){const n=Number(document.getElementById("oddNum").value),d=Number(document.getElementById("oddDen").value),m=document.getElementById("message4");if(fracOK(n,d,3,10)){m.textContent="🎉 Correct! 6/20 = 3/10";m.style.color="green";celebrate();setTimeout(()=>{document.getElementById("challengeChoice").style.display="block";document.getElementById("challengeChoice").scrollIntoView({behavior:"smooth"})},900)}else{m.textContent="🤔 『条件に合う場合の数 ÷ 起こりうる場合の数』で考えてみよう。";m.style.color="#d34a20"}}
+function startChallenge2(){document.getElementById("challengeChoice").style.display="none";document.getElementById("challenge2").style.display="block";renderTable("tableChallenge2","challenge2",true);document.getElementById("challenge2").scrollIntoView({behavior:"smooth"})}
+function checkChallenge2(){const m=document.getElementById("challenge2Message");if(setsEqual(selected.challenge2,sumUnder10Set)){m.textContent="🎉 Correct! 2 outcomes found.";m.style.color="green";document.getElementById("challenge2Fraction").style.display="block"}else{m.textContent="🤔 和が10未満になる組合せをもう一度確認してみよう。";m.style.color="#d34a20"}}
+function checkChallenge2Fraction(){const n=Number(document.getElementById("c2Num").value),d=Number(document.getElementById("c2Den").value),m=document.getElementById("challenge2FracMessage");if(fracOK(n,d,1,10)){m.textContent="🎉 Correct! 2/20 = 1/10";m.style.color="green";setTimeout(()=>{document.getElementById("challenge3").style.display="block";renderTable("tableChallenge3","challenge3",true);document.getElementById("challenge3").scrollIntoView({behavior:"smooth"})},700)}else{m.textContent="🤔 2通り / 20通り を確率にしよう。";m.style.color="#d34a20"}}
+function checkChallenge3(){const m=document.getElementById("challenge3Message");if(setsEqual(selected.challenge3,squareProductSet)){m.textContent="🎉 Correct! 2 outcomes found.";m.style.color="green";document.getElementById("challenge3Fraction").style.display="block"}else{m.textContent="🤔 積が平方数になる組合せを探してみよう。";m.style.color="#d34a20"}}
+function checkChallenge3Fraction(){const n=Number(document.getElementById("c3Num").value),d=Number(document.getElementById("c3Den").value),m=document.getElementById("challenge3FracMessage");if(fracOK(n,d,1,10)){m.textContent="🏆 Challenge Complete! 2/20 = 1/10";m.style.color="green";celebrate();setTimeout(showComplete,1000)}else{m.textContent="🤔 2通り / 20通り を確率にしよう。";m.style.color="#d34a20"}}
+function resetChallenge(num){const key=num===2?"challenge2":"challenge3";selected[key].clear();renderTable(num===2?"tableChallenge2":"tableChallenge3",key,true);document.getElementById(num===2?"challenge2Message":"challenge3Message").textContent=""}
+function showComplete(){document.getElementById("complete").style.display="block";document.getElementById("complete").scrollIntoView({behavior:"smooth"})}
+function celebrate(){for(let i=0;i<60;i++){const c=document.createElement("div");c.className="confetti";const colors=["red","blue","green","gold","hotpink"];c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=Math.random()*100+"vw";c.style.animationDelay=Math.random()*.5+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),3000)}}
+</script>
+</body>
+</html>
