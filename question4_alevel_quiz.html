@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A-Level H2に挑戦！ 第4問</title>
+  <style>
+    :root {
+      --navy:#153b61; --blue:#2f78aa; --pale:#eef7fc; --gold:#e7a823;
+      --red:#dc5947; --green:#23865d; --ink:#183047; --line:#d6e3ed;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;
+      background:linear-gradient(145deg,#eaf6ff,#fff7dc); line-height:1.65;
+    }
+    button,input { font:inherit; }
+    .page { width:min(760px,calc(100% - 24px)); margin:24px auto 56px; }
+    .card { background:#fff; border-radius:24px; box-shadow:0 12px 38px #173d6420; overflow:hidden; }
+    header { padding:26px 24px 22px; background:linear-gradient(100deg,#e5f5ff,#fff5cf); border-bottom:1px solid var(--line); }
+    .eyebrow { margin:0 0 4px; color:#dc6a2f; font-size:.82rem; font-weight:800; letter-spacing:.08em; }
+    h1 { margin:0; color:var(--navy); font-size:clamp(1.55rem,6vw,2.25rem); line-height:1.3; }
+    .content { padding:24px; }
+    .center { text-align:center; }
+    .lead { font-size:1.08rem; }
+    .btn { border:0; border-radius:999px; padding:13px 25px; color:#fff; background:var(--navy); font-weight:800; cursor:pointer; box-shadow:0 5px 14px #153b6130; }
+    .btn:hover { filter:brightness(1.08); }
+    .btn:focus-visible,.choice:focus-within,input:focus-visible { outline:4px solid #f5bf3d; outline-offset:3px; }
+    .btn.secondary { background:#61798d; }
+    .problem { padding:18px; background:#f8fbfd; border-left:5px solid var(--blue); border-radius:14px; }
+    .problem p { margin:0; }
+    .support { margin-top:10px!important; color:#52697d; font-size:.9rem; }
+    .diagram-wrap { margin:18px auto 10px; max-width:590px; border:1px solid var(--line); border-radius:18px; background:#fff; padding:10px; }
+    svg { display:block; width:100%; height:auto; }
+    .progress { display:flex; gap:8px; margin:22px 0; }
+    .progress span { height:8px; flex:1; background:#dce7ee; border-radius:10px; }
+    .progress .done { background:var(--green); }
+    .question { margin-top:22px; padding:20px; border:1px solid var(--line); border-radius:18px; }
+    .question h2 { margin:0 0 13px; font-size:1.2rem; color:var(--navy); }
+    .choice { display:block; margin:10px 0; padding:12px 14px; border:2px solid #dce6ed; border-radius:13px; cursor:pointer; background:#fff; }
+    .choice:hover { border-color:#84b7d5; background:#f5fbff; }
+    .choice input { margin-right:8px; }
+    .formula { font-family:"Times New Roman",serif; font-size:1.04rem; overflow-wrap:anywhere; }
+    .answer-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:10px 0; }
+    .number { width:125px; padding:9px 12px; border:2px solid #cbdbe6; border-radius:10px; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    .hint-btn { border:2px solid var(--gold); color:#7b5700; background:#fff9e7; border-radius:999px; padding:8px 15px; cursor:pointer; font-weight:700; }
+    .hint { display:none; margin-top:12px; padding:12px 14px; background:#fff8dd; border-radius:12px; color:#634d16; }
+    .message { min-height:30px; margin-top:12px; font-weight:800; }
+    .message.good { color:var(--green); }
+    .message.bad { color:#c33e32; }
+    .hidden { display:none!important; }
+    #finish { padding:42px 24px; text-align:center; }
+    #finish .big { font-size:3.5rem; line-height:1; }
+    #correctEffect { position:fixed; inset:42% 0 auto; z-index:20; text-align:center; pointer-events:none; font-size:clamp(2rem,10vw,4.5rem); font-weight:900; color:var(--green); text-shadow:0 3px #fff; animation:pop .9s both; }
+    @keyframes pop { 0%{transform:scale(.2);opacity:0} 50%{transform:scale(1.15);opacity:1} 100%{transform:scale(1);opacity:0} }
+    .confetti { position:fixed; top:-16px; z-index:15; width:10px; height:17px; pointer-events:none; animation:fall 2.7s linear forwards; }
+    @keyframes fall { to { transform:translate3d(var(--drift),110vh,0) rotate(760deg); } }
+    @media (max-width:520px) {
+      .page { margin-top:12px; } header,.content { padding:19px 16px; }
+      .question { padding:16px 13px; } .formula { font-size:.94rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card" id="start">
+      <header><p class="eyebrow">SINGAPORE A-LEVEL H2</p><h1>第4問・微分の応用</h1></header>
+      <div class="content center">
+        <p class="lead">微分を使って、表面積が最も小さくなる建物模型の形を考えよう。</p>
+        <button class="btn" id="startBtn">第4問に挑戦！</button>
+      </div>
+    </section>
+
+    <section class="card hidden" id="quiz">
+      <header><p class="eyebrow">SINGAPORE A-LEVEL H2</p><h1>第4問・Application of Differentiation</h1></header>
+      <div class="content">
+        <div class="problem">
+          <p lang="en">A building model consists of a hemisphere of radius <i>r</i> placed centrally on a cylinder of radius <i>r</i> + 3 cm and height <i>h</i>. The total volume is fixed at 1000π cm³.</p>
+          <p class="support">半径 <i>r</i> の半球を、半径 <i>r</i>＋3 cm・高さ <i>h</i> の円柱の中央に置いた模型です。</p>
+        </div>
+
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 700 520" role="img" aria-label="半径rの半球が、半径r+3、高さhの円柱の中央に置かれた図">
+            <defs><linearGradient id="dome" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff8d4"/><stop offset="1" stop-color="#ffdfa0"/></linearGradient></defs>
+            <g fill="none" stroke="#315f7b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M100 190V405M600 190V405"/>
+              <path d="M100 190A250 65 0 0 0 600 190"/>
+              <path d="M100 190A250 65 0 0 1 600 190" stroke-dasharray="10 10" opacity=".5"/>
+              <ellipse cx="350" cy="405" rx="250" ry="65" fill="#eef7fb" fill-opacity=".7"/>
+              <path d="M185 190C195 22 505 22 515 190" fill="url(#dome)"/>
+              <path d="M185 190A165 43 0 0 0 515 190"/>
+              <path d="M185 190A165 43 0 0 1 515 190" stroke-dasharray="9 9" opacity=".5"/>
+            </g>
+            <g fill="none" stroke="#df5948" stroke-width="4">
+              <path d="M350 190H515M515 190H600M350 405H600M638 190V405"/>
+              <path d="M350 177V203M515 177V203M600 177V203M350 392V418M600 392V418M624 190H652M624 405H652"/>
+            </g>
+            <g fill="#d84c3d" font-family="Georgia,serif" font-size="31"><text x="426" y="174" font-style="italic">r</text><text x="550" y="174">3</text><text x="455" y="390" font-style="italic">r + 3</text><text x="660" y="305" font-style="italic">h</text></g>
+            <circle cx="350" cy="190" r="6" fill="#153b61"/>
+          </svg>
+        </div>
+
+        <div class="progress" aria-label="進み具合"><span id="p1"></span><span id="p2"></span><span id="p3"></span></div>
+
+        <section class="question" id="qa">
+          <h2>（a）表面積 <i>S</i> を <i>r</i> の式で表すとどれ？</h2>
+          <label class="choice formula"><input type="radio" name="a" value="1">S = π(3r²＋12r＋18)＋2π(3000－2r³)／{3(r＋3)}</label>
+          <label class="choice formula"><input type="radio" name="a" value="2">S = π(3r²＋12r＋18)＋2π(3000－2r³)／{3(r＋3)²}</label>
+          <label class="choice formula"><input type="radio" name="a" value="3">S = π(2r²＋12r＋18)＋2π(3000－2r³)／{3(r＋3)}</label>
+          <div class="actions"><button class="btn" data-check="a">答える</button><button class="hint-btn" data-hint="ha">ヒント</button></div>
+          <div class="hint" id="ha">見えている面は「半球の曲面」「円柱上面の輪」「円柱の側面」「円柱の底面」。体積条件から <span class="formula">h＝(3000－2r³)／{3(r＋3)²}</span> と表せます。</div>
+          <div class="message" id="ma" aria-live="polite"></div>
+        </section>
+
+        <section class="question hidden" id="qb">
+          <h2>（b）<i>S</i> が停留値をとるときの方程式はどれ？</h2>
+          <label class="choice formula"><input type="radio" name="b" value="1">5r³＋54r²＋189r－2838＝0</label>
+          <label class="choice formula"><input type="radio" name="b" value="2">5r³＋54r²＋189r＋2838＝0</label>
+          <label class="choice formula"><input type="radio" name="b" value="3">5r²＋54r＋189＝0</label>
+          <div class="actions"><button class="btn" data-check="b">答える</button><button class="hint-btn" data-hint="hb">ヒント</button></div>
+          <div class="hint" id="hb"><i>S</i> を <i>r</i> で微分し、<span class="formula">dS／dr＝0</span> とします。分母を払って整理すると3次方程式になります。</div>
+          <div class="message" id="mb" aria-live="polite"></div>
+        </section>
+
+        <section class="question hidden" id="qc">
+          <h2>（c）<i>r</i> と <i>h</i> を3桁の有効数字で求めよう</h2>
+          <div class="answer-row"><label for="rAns"><i>r</i> ＝</label><input class="number" id="rAns" type="number" step="any" inputmode="decimal"><span>cm</span></div>
+          <div class="answer-row"><label for="hAns"><i>h</i> ＝</label><input class="number" id="hAns" type="number" step="any" inputmode="decimal"><span>cm</span></div>
+          <p>このとき表面積は？</p>
+          <label class="choice"><input type="radio" name="kind" value="max">最大になる</label>
+          <label class="choice"><input type="radio" name="kind" value="min">最小になる</label>
+          <div class="actions"><button class="btn" data-check="c">答える</button><button class="hint-btn" data-hint="hc">ヒント</button></div>
+          <div class="hint" id="hc">（b）の方程式の正の解を求めます。その値を体積条件の式に代入すると <i>h</i> が出ます。停留値の前後で <i>S</i> の増減も確認しよう。</div>
+          <div class="message" id="mc" aria-live="polite"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="card hidden" id="finish">
+      <div class="big">🎉</div><h1>第4問クリア！</h1>
+      <p><i>r</i>＝4.93 cm、<i>h</i>＝14.7 cm のとき、表面積は最小になります。</p>
+      <button class="btn secondary" id="againBtn">もう一度挑戦</button>
+    </section>
+  </main>
+
+  <script>
+    const start = document.querySelector('#start');
+    const quiz = document.querySelector('#quiz');
+    const finish = document.querySelector('#finish');
+
+    document.querySelector('#startBtn').addEventListener('click', () => {
+      start.classList.add('hidden'); quiz.classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'});
+    });
+    document.querySelector('#againBtn').addEventListener('click', () => location.reload());
+
+    document.querySelectorAll('[data-hint]').forEach(button => button.addEventListener('click', () => {
+      const box = document.querySelector('#' + button.dataset.hint);
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }));
+
+    document.querySelectorAll('[data-check]').forEach(button => button.addEventListener('click', () => check(button.dataset.check)));
+
+    function check(part) {
+      if (part === 'a') {
+        const answer = document.querySelector('input[name="a"]:checked');
+        if (!answer) return message('ma','答えを1つ選んでね。',false);
+        if (answer.value !== '1') return message('ma','もう一度考えてみよう！',false);
+        success('ma','正解！ 円柱側面の h を体積条件で消去できたね。','p1','qb');
+      }
+      if (part === 'b') {
+        const answer = document.querySelector('input[name="b"]:checked');
+        if (!answer) return message('mb','答えを1つ選んでね。',false);
+        if (answer.value !== '1') return message('mb','符号と次数を確認して、もう一度！',false);
+        success('mb','正解！ 次は3次方程式の正の解を使おう。','p2','qc');
+      }
+      if (part === 'c') {
+        const r = Number(document.querySelector('#rAns').value);
+        const h = Number(document.querySelector('#hAns').value);
+        const kind = document.querySelector('input[name="kind"]:checked');
+        if (!Number.isFinite(r) || !Number.isFinite(h) || !kind) return message('mc','r、h、最大・最小をすべて答えてね。',false);
+        const numbersOK = Math.abs(r - 4.93) <= 0.015 && Math.abs(h - 14.7) <= 0.06;
+        if (!numbersOK || kind.value !== 'min') return message('mc','数値は3桁の有効数字、増減は停留値の前後で確認しよう。',false);
+        document.querySelector('#p3').classList.add('done'); message('mc','正解！ 第4問クリア！',true); celebrate();
+        setTimeout(() => { quiz.classList.add('hidden'); finish.classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'}); },1700);
+      }
+    }
+
+    function success(messageId,text,progressId,nextId) {
+      message(messageId,text,true); document.querySelector('#'+progressId).classList.add('done'); celebrate(35);
+      setTimeout(() => { const next=document.querySelector('#'+nextId); next.classList.remove('hidden'); next.scrollIntoView({behavior:'smooth',block:'start'}); },900);
+    }
+    function message(id,text,good) { const el=document.querySelector('#'+id); el.textContent=text; el.className='message '+(good?'good':'bad'); }
+    function celebrate(amount=85) {
+      const effect=document.createElement('div'); effect.id='correctEffect'; effect.textContent='正解！'; document.body.appendChild(effect); setTimeout(()=>effect.remove(),950);
+      const colors=['#f7c948','#e85d5d','#4ea5d9','#61bd83','#8d6bc1'];
+      for(let i=0;i<amount;i++) {
+        const p=document.createElement('i'); p.className='confetti'; p.style.left=Math.random()*100+'vw'; p.style.background=colors[i%colors.length]; p.style.setProperty('--drift',(Math.random()*180-90)+'px'); p.style.animationDelay=Math.random()*.45+'s'; document.body.appendChild(p); setTimeout(()=>p.remove(),3300);
+      }
+    }
+  </script>
+</body>
+</html>
